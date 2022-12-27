@@ -1230,8 +1230,7 @@ QString MainWindow::rootPath()
     // We should pass this to the build instead of wiring it up this way!
     return QCoreApplication::applicationDirPath() + "/../../../../..";
 #else
-    // On linux, CMake builds app into the build folder
-    return QCoreApplication::applicationDirPath() + "/../../../..";
+    return "/usr/share/sonic-pi";
 #endif
 }
 

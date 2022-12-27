@@ -750,9 +750,9 @@ bool SonicPiAPI::InitializePaths(const fs::path& root)
     }
 
     // Set Ruby script paths
-    m_paths[SonicPiPath::BootDaemonPath]      = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/daemon.rb";
-    m_paths[SonicPiPath::FetchUrlPath]        = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/fetch-url.rb";
-    m_paths[SonicPiPath::ClearLogsPath]        = m_paths[SonicPiPath::RootPath] / "app/server/ruby/bin/clear-logs.rb";
+    m_paths[SonicPiPath::BootDaemonPath]      = "/usr/lib/sonic-pi/app/server/ruby/bin/daemon.rb";
+    m_paths[SonicPiPath::FetchUrlPath]        = "/usr/lib/sonic-pi/app/server/ruby/bin/fetch-url.rb";
+    m_paths[SonicPiPath::ClearLogsPath]        = "/usr/lib/sonic-pi/app/server/ruby/bin/clear-logs.rb";
 
 
 
