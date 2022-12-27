@@ -47,11 +47,11 @@ module SonicPi
     end
 
     def self.root_path
-      File.absolute_path("#{File.dirname(__FILE__)}/../../../")
+      File.absolute_path("#{File.dirname(__FILE__)}/../../../") # arch: resolves to /usr/lib/sonic-pi
     end
 
     def self.etc_path
-      File.absolute_path("#{root_path}/etc")
+      File.absolute_path("/usr/share/sonic-pi")
     end
 
     def self.snippets_path
@@ -147,7 +147,7 @@ module SonicPi
       when :windows
         File.absolute_path("#{native_path}/aubio_onset.exe")
       else
-        File.absolute_path("#{native_path}/aubio_onset")
+        File.absolute_path("/usr/bin/aubioonset")
       end
     end
 
@@ -156,7 +156,7 @@ module SonicPi
       when :windows
         File.absolute_path("#{native_path}/sox/sox.exe")
       else
-        File.absolute_path("#{native_path}/sox/sox")
+        File.absolute_path("/usr/bin/sox")
       end
     end
 

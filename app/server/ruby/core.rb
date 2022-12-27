@@ -125,7 +125,7 @@ module SonicPi
       # define this helper first so we can set the constants below
       def self.wav_from_buffer_file(filename)
         ::WaveFile::Reader.new(
-          File.expand_path("../../../../etc/buffers/#{filename}", __FILE__),
+          File.expand_path("/usr/share/sonic-pi/buffers/#{filename}", __FILE__),
           ::WaveFile::Format.new(:mono, :float, 44100)
         ).read(441000).samples.freeze
       end
