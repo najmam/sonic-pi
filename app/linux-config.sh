@@ -51,7 +51,7 @@ option() {
   fi
 }
 
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="$config" -DBUILD_IMGUI_INTERFACE="$(option "!$no_imgui")" -DUSE_SYSTEM_LIBS="$(option "$system_libs")" ..
+cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_INSTALL_RPATH=YES -DCMAKE_BUILD_TYPE="$config" -DBUILD_IMGUI_INTERFACE="$(option "!$no_imgui")" -DUSE_SYSTEM_LIBS="$(option "$system_libs")" ..
 
 cd "${SCRIPT_DIR}"
 
