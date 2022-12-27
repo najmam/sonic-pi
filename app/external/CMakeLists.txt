@@ -51,59 +51,10 @@ ExternalProject_Add(sp_link
     BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
     )
 
-if(NOT USE_SYSTEM_LIBS)
-    find_package(SndFile CONFIG REQUIRED)
-
-    ExternalProject_Add(aubio-project
-        PREFIX aubio-prefix
-        SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/aubio-0.4.9
-
-        INSTALL_DIR ${CMAKE_BINARY_DIR}/aubio-package
-
-        CMAKE_ARGS
-            -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/aubio-package
-            # propagate vcpkg information
-            -DVCPKG_TARGET_TRIPLET=${VCPKG_TARGET_TRIPLET}
-            -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-        )
-endif()
-
-# Build aubio_onset for server
-add_executable(aubio_onset
-    ${CMAKE_CURRENT_LIST_DIR}/aubio/aubioonset.c
-    ${CMAKE_CURRENT_LIST_DIR}/aubio/utils.c)
-if(USE_SYSTEM_LIBS)
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(aubio REQUIRED IMPORTED_TARGET aubio)
-    target_link_libraries(aubio_onset
-        PRIVATE
-        PkgConfig::aubio)
-else()
-    add_dependencies(aubio_onset aubio-project)
-    target_include_directories(aubio_onset PRIVATE ${CMAKE_BINARY_DIR}/aubio-package/include)
-    target_link_directories(aubio_onset PRIVATE ${CMAKE_BINARY_DIR}/aubio-package/lib)
-    target_link_libraries(aubio_onset
-        PRIVATE
-        aubio
-        SndFile::sndfile)
-endif()
-if(UNIX)
-    target_link_libraries(aubio_onset
-        PRIVATE
-        m)
-endif()
+find_package(PkgConfig REQUIRED)
 
 # Kick off a generation by making a dummy/empty project
 add_library(ExternalsBuilder STATIC externals.cpp)
-
-# Dependency ensures the externals are built
-add_dependencies(ExternalsBuilder aubio_onset)
-
-# Copy prebuilt files
-add_custom_command(
-    TARGET aubio_onset POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:aubio_onset> ${CMAKE_CURRENT_SOURCE_DIR}/../server/native/
-)
 
 if(WIN32)
   if(CMAKE_SIZEOF_VOID_P EQUAL 8) # 64-bit
