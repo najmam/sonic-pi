@@ -60,12 +60,11 @@ endif()
 
 find_package(Threads REQUIRED)
 
+set(QSCINTILLA_QT5 UNKNOWN)
 if(USE_SYSTEM_LIBS)
   find_package(QScintilla REQUIRED)
 else()
-  # We build QScintilla as part of the main project to make it easy to debug/fix
-  # It is not built as part of externals
-  add_subdirectory(QScintilla_src-2.13.3)
+  find_library(QSCINTILLA_QT5 qscintilla2_qt5)
 endif()
 
 add_subdirectory(vendor/SingleApplication)
@@ -295,7 +294,7 @@ target_include_directories(${APP_NAME}
 target_link_libraries(${APP_NAME}
     PRIVATE
     SonicPi::API
-    QScintilla
+    ${QSCINTILLA_QT5}
     Threads::Threads
     SingleApplication::SingleApplication)
 
